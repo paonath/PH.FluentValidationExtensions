@@ -1,11 +1,8 @@
-# PH.FluentValidationExtensions
-My Extensions to Fluent Validation
+using System.Collections.Generic;
+using FluentValidation;
 
-## Image Validation
+namespace PH.FluentValidationExtensions.Test;
 
-### Build Rule
-
-```csharp
 public class ImageByContentTypeValidatorToBeTested : AbstractValidator<ImageSample>
 {
 	public ImageByContentTypeValidatorToBeTested()
@@ -19,8 +16,6 @@ public class ExtendedImageByContentTypeValidatorToBeTested : AbstractValidator<I
 {
 	public ExtendedImageByContentTypeValidatorToBeTested()
 	{
-		// this rule allow only jpeg content type instead of builtin list
-		RuleFor(c => c.ContentType).ImageFileByContentType(new string[] { "image/jpeg" });
+		RuleFor(c => c.ContentType).ImageFileByContentType(new string[] { "image/jpeg", "image/jpeg" });
 	}
 }
-```
