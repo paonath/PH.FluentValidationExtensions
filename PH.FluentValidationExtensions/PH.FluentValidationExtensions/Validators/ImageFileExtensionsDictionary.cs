@@ -9,7 +9,7 @@
 		public static string[] All = new string[]
 		{
 			"bmp", "cod", "gif", "ief", "jpe", "jpeg", "jpg", "jfif", "svg", "tif", "tiff", "ras", "cmx", "ico", "pnm",
-			"pbm", "pgm", "ppm", "rgb", "webp", "xbm", "xpm", "xwd"
+			"pbm", "pgm", "png", "ppm", "rgb", "webp", "xbm", "xpm", "xwd"
 
 		};
 	}
