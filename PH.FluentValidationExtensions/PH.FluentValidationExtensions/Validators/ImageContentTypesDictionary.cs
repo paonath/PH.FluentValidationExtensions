@@ -14,6 +14,7 @@
             , "image/ief"
             , "image/jpeg"
             , "image/pipeg"
+            , "image/png"
             , "image/svg+xml"
             , "image/tiff"
             , "image/tiff"
