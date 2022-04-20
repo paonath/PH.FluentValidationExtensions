@@ -14,13 +14,13 @@
 		  
 	  </Description>
 	  <PackageReleaseNotes>
-		  First Release: validate image by FileExt or Content-Type
+		  Add support for missing image/png and .png file ext.
 	  </PackageReleaseNotes>
 
 
 	  <PackageTags>fluentvalidation</PackageTags>
 
-	  <PackageVersion>0.0.1</PackageVersion>
+	  <PackageVersion>0.0.2</PackageVersion>
 
 	  
 	  <RepositoryUrl>https://github.com/paonath/PH.FluentValidationExtensions</RepositoryUrl>
