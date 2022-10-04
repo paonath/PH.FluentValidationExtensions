@@ -6,16 +6,10 @@ using FluentValidation.Validators;
 
 namespace PH.FluentValidationExtensions.Validators
 {
-	public interface IImageValidator : IPropertyValidator
-	{
-	}
-
-
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	/// <seealso cref="FluentValidation.Validators.PropertyValidator&lt;T, System.String&gt;" />
 	/// <seealso cref="PH.FluentValidationExtensions.Validators.IImageValidator" />
 	public class ImageByContentTypeValidator<T> : PropertyValidator<T, string>, IImageValidator
 	{

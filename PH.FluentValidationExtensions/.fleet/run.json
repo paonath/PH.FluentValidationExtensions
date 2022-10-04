@@ -1,0 +1,12 @@
+{
+    "configurations": [
+        {
+            "type": "dotnet",
+            "name": "Debug",
+            "projectPath": "PH.FluentValidationExtensions.Test/",
+            "exePath": "dotnet.exe ",
+            "args": ["test", "-v n"],
+        },
+
+    ]
+}

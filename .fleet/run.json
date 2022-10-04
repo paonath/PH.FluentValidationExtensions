@@ -1,0 +1,12 @@
+{
+    "configurations": [
+        {
+            "type": "dotnet",
+            "name": "Debug",
+            "projectPath": "",
+            "exePath": "",
+            "args": [],
+        },
+
+    ]
+}

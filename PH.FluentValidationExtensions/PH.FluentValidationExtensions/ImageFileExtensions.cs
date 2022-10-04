@@ -5,7 +5,7 @@ using PH.FluentValidationExtensions.Validators;
 
 namespace PH.FluentValidationExtensions
 {
-    public static class ImageFileExtensions
+	public static class ImageFileExtensions
     {
 
 	    /// <summary>
