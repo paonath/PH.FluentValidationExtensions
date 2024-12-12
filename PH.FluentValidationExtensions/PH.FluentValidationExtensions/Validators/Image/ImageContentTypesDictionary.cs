@@ -1,4 +1,9 @@
-﻿namespace PH.FluentValidationExtensions.Validators
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace PH.FluentValidationExtensions.Validators.Image
 {
     /// <summary>
     /// A List of image content types

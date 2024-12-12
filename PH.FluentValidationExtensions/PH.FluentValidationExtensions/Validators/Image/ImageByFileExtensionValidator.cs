@@ -1,17 +1,18 @@
 ﻿using System;
-using FluentValidation;
-using FluentValidation.Validators;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.Validators;
 
-namespace PH.FluentValidationExtensions.Validators
+namespace PH.FluentValidationExtensions.Validators.Image
 {
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <seealso cref="FluentValidation.Validators.PropertyValidator&lt;T, System.String&gt;" />
-	/// <seealso cref="PH.FluentValidationExtensions.Validators.IImageValidator" />
+	/// <seealso cref="IImageValidator" />
 	public class ImageByFileExtensionValidator<T> : PropertyValidator<T, string>, IImageValidator
 	{
 		private readonly string[] _allowedFileExt;

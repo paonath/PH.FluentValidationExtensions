@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FluentValidation;
 using PH.FluentValidationExtensions.Validators;
+using PH.FluentValidationExtensions.Validators.Image;
 
 namespace PH.FluentValidationExtensions
 {

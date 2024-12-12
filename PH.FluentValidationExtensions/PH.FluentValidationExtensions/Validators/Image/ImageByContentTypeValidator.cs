@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Validators;
 
-namespace PH.FluentValidationExtensions.Validators
+namespace PH.FluentValidationExtensions.Validators.Image
 {
-	public interface IImageValidator : IPropertyValidator
-	{
-	}
-
-
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <seealso cref="FluentValidation.Validators.PropertyValidator&lt;T, System.String&gt;" />
-	/// <seealso cref="PH.FluentValidationExtensions.Validators.IImageValidator" />
+    /// <summary>
+    /// A validator that checks if a given string value matches one of the allowed image content types.
+    /// </summary>
+    /// <typeparam name="T">The type of the object being validated.</typeparam>
+    /// <remarks>
+    /// This validator is used to ensure that a property value corresponds to a valid image content type.
+    /// It supports a predefined set of content types or a custom list of allowed content types.
+    /// </remarks>
+    /// <seealso cref="FluentValidation.Validators.PropertyValidator{T,string}" />
+    /// <seealso cref="PH.FluentValidationExtensions.Validators.Image.IImageValidator" />
 	public class ImageByContentTypeValidator<T> : PropertyValidator<T, string>, IImageValidator
 	{
 		private readonly string[] _allowedContentTypes;
