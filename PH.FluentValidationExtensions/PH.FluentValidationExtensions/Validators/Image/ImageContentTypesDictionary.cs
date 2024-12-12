@@ -10,8 +10,8 @@ namespace PH.FluentValidationExtensions.Validators.Image
     /// </summary>
     internal static class ImageContentTypesDictionary
     {
-
-        public static string[] All = new string[]
+        
+        public static readonly string[] All = new string[]
         {
             "image/bmp"
             , "image/cis-cod"
