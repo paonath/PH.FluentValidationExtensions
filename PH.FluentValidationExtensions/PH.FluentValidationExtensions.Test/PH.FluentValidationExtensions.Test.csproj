@@ -24,4 +24,8 @@
     <ProjectReference Include="..\PH.FluentValidationExtensions\PH.FluentValidationExtensions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="StringSanitizer\" />
+  </ItemGroup>
+
 </Project>
