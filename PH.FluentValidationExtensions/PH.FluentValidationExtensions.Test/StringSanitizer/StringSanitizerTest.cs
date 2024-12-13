@@ -1,7 +1,10 @@
-﻿using FluentValidation;
+﻿using System;
+using System.Linq;
+using FluentValidation;
 using Microsoft.VisualBasic;
 using PH.FluentValidationExtensions.Validators.StringSanitizer;
 using Xunit;
+using static PH.FluentValidationExtensions.Test.StringSanitizer.StringSanitizerTest;
 
 namespace PH.FluentValidationExtensions.Test.StringSanitizer
 {
@@ -40,8 +43,77 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         }
 
 
+        [Theory]
+        [InlineData(null, true)]
+        [InlineData("A simple text with the word script and script example: <script type='text/javascript'></script> within.", false)]
+        public void TestSCriptsWithGenerics(string? valueToTest, bool valid)
+        {
+
+            Sample sample = new Sample() { StringValue = valueToTest };
+
+            var validator = new GenericValidator<Sample>();
+
+            var validation = validator.Validate(sample);
+            
+            Assert.Equal(validation.IsValid, valid);
 
 
+        }
+
+        
+        
+        [Theory]
+        [InlineData(null, null, true)]
+        [InlineData("valid", null, true)]
+        [InlineData("valid", "valid", true)]
+        [InlineData("not-valid<script", "not-valid", false)]
+        public void TestNestedProperties(string? valueToTest, string? alwaysgood, bool valid)
+        {
+            NestedValidator validator = new NestedValidator();
+
+            
+            var value0        = WithNested.Init(valueToTest, new Sample() { StringValue = valueToTest });
+            var value1        = WithNested.Init(alwaysgood, new Sample() { StringValue  = valueToTest });
+            var valueWithNull = WithNested.Init(valueToTest, null);
+            
+
+            var validation0 = validator.Validate(value0);
+            var validation1 = validator.Validate(value1);
+            var validation2 = validator.Validate(valueWithNull);
+            
+            Assert.Equal(validation0.IsValid, valid);
+            Assert.Equal(validation1.IsValid, valid);
+            Assert.Equal(validation2.IsValid, valid);
+        }
+
+
+        [Fact]
+        public void TestArray()
+        {
+            var validTxt    = "valid";
+            var notValidTxt = "not-valid: <script";
+
+            WithArrayValidator validator = new WithArrayValidator();
+
+            var valid = validator.Validate(new WithArray()
+            {
+                ArrayOfChars            = validTxt.ToCharArray(),
+                ArrayOfStrings          = validTxt.Split(' '),
+                ArrayOfNullableChars    = validTxt.ToCharArray().Select(x => new char?(x)).ToArray(),
+                ArrayOffNullableStrings = validTxt.Split(' ').Select(x => (string?)(x)).ToArray()
+            });
+
+            var notValid = validator.Validate(new WithArray()
+            {
+                ArrayOfChars            = notValidTxt.ToCharArray(), ArrayOfStrings = notValidTxt.Split(' '),
+                ArrayOfNullableChars    = notValidTxt.ToCharArray().Select(x => new char?(x)).ToArray(),
+                ArrayOffNullableStrings = notValidTxt.Split(' ').Select(x => (string?)(x)).ToArray()
+            });
+            
+            Assert.True(valid.IsValid);
+            Assert.False(notValid.IsValid);
+            
+        }
 
 
 
@@ -49,12 +121,78 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         {
             public string? StringValue { get; set; }
         }
-
+        
+        
         internal class SampleValidator : AbstractValidator<Sample>
         {
             public SampleValidator()
             {
                 RuleFor(x => x.StringValue).WithNoScripts();
+            }
+        }
+        
+        internal class WithArray
+        {
+            /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
+            public WithArray()
+            {
+                ArrayOfChars            = [];
+                ArrayOfNullableChars    =[];
+                ArrayOfStrings          = [];
+                ArrayOffNullableStrings = [];
+            }
+
+            public char[] ArrayOfChars { get; set; }
+
+            public char?[] ArrayOfNullableChars { get; set; }
+            
+            public string[] ArrayOfStrings { get; set; }
+            
+            public string?[] ArrayOffNullableStrings { get; set; }
+            
+            
+        }
+        
+        internal class WithArrayValidator : AbstractValidator<WithArray>
+        {
+            public WithArrayValidator()
+            {
+                RuleFor(x => x.ArrayOfChars).WithNoScripts();
+                RuleFor(x => x.ArrayOfStrings).WithNoScripts();
+                RuleFor(x => x.ArrayOfNullableChars).WithNoScripts();
+                RuleFor(x => x.ArrayOffNullableStrings).WithNoScripts();
+            }
+        }
+        
+        internal class WithNested
+        {
+            
+            public int?       InvValue    { get; set; }
+            public string?    StringValue { get; set; }
+            public Sample?    Nested      { get; }
+            
+            private  WithNested(Sample? n)
+            {
+                Nested = n;
+            }
+
+            public static WithNested Init(string? s, Sample? sample) => new WithNested(sample) { StringValue = s , InvValue = 0};
+            
+        }
+        
+        internal class GenericValidator<T> : AbstractValidator<T>
+        {
+            public GenericValidator()
+            {
+                RuleFor(x => x).WithNoScripts();
+            }
+        }
+        
+        internal class NestedValidator : GenericValidator<WithNested?>
+        {
+            public NestedValidator()
+            {
+                
             }
         }
     }
