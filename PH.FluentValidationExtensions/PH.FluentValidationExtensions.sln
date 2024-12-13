@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PH.FluentValidationExtensio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{23CB3BA6-1565-4551-88E9-7030B367380C}"
 	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
 		Directory.Build.props = Directory.Build.props
 		..\README.md = ..\README.md
 	EndProjectSection
