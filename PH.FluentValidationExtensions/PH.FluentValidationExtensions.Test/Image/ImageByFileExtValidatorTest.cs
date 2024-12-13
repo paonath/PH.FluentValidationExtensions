@@ -1,4 +1,6 @@
 using System;
+using System.Threading.Tasks;
+using FluentValidation;
 using Xunit;
 
 namespace PH.FluentValidationExtensions.Test.Image;
@@ -41,7 +43,7 @@ public class ImageByFileExtValidatorTest
 
 
     [Fact]
-    public async void TestAsync()
+    public async Task TestAsync()
     {
         var validator = new ImageByFileExtValidatorToBeTested();
 
@@ -55,12 +57,16 @@ public class ImageByFileExtValidatorTest
     [Fact]
     public void TestException()
     {
-        Exception e = null;
+        Exception? e = null;
         try
         {
-            var v = new InvalidImageByFileExtValidatorToBeTested();
+            var a = new InvalidImageByFileExtValidatorToBeTested()
+            {
+                ClassLevelCascadeMode = CascadeMode.Stop
+            };
+            Assert.Equal(CascadeMode.Continue, a.ClassLevelCascadeMode);
         }
-        catch (Exception exception)
+        catch (Exception? exception)
         {
             e = exception;
         }

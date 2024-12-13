@@ -62,8 +62,12 @@ public class ImageByContentTypeValidatorTest
         Exception? e = null;
         try
         {
-            var v = new InvalidImageByContentTypeValidatorToBeTested();
-            v.CascadeMode = CascadeMode.Continue;
+            var a = new InvalidImageByContentTypeValidatorToBeTested
+            {
+                ClassLevelCascadeMode = CascadeMode.Continue
+            };
+            
+            Assert.Equal(CascadeMode.Stop,a.ClassLevelCascadeMode);
         }
         catch (Exception exception)
         {

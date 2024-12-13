@@ -16,6 +16,6 @@ public class ExtendedImageByContentTypeValidatorToBeTested : AbstractValidator<I
 {
     public ExtendedImageByContentTypeValidatorToBeTested()
     {
-        RuleFor(c => c.ContentType).ImageFileByContentType(new string[] { "image/jpeg", "image/jpeg" });
+        RuleFor(c => c.ContentType).ImageFileByContentType(["image/jpeg", "image/jpeg"]);
     }
 }
