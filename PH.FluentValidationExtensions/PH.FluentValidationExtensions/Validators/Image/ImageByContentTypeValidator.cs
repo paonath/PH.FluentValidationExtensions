@@ -15,7 +15,6 @@ namespace PH.FluentValidationExtensions.Validators.Image
     /// This validator is used to ensure that a property value corresponds to a valid image content type.
     /// It supports a predefined set of content types or a custom list of allowed content types.
     /// </remarks>
-    /// <seealso cref="FluentValidation.Validators.PropertyValidator{T,string}" />
     /// <seealso cref="PH.FluentValidationExtensions.Validators.Image.IImageValidator" />
 	public class ImageByContentTypeValidator<T> : PropertyValidator<T, string>, IImageValidator
 	{
@@ -61,7 +60,7 @@ namespace PH.FluentValidationExtensions.Validators.Image
 		}
 
 		/// <summary>
-		/// Returns true if <see cref="value"/> is one of the elements of the given list.
+		/// Returns true if value is one of the elements of the given list.
 		/// </summary>
 		/// <param name="context">The context.</param>
 		/// <param name="value">The value.</param>
