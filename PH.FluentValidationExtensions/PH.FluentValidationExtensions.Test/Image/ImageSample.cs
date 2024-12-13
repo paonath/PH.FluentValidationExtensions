@@ -1,7 +1,16 @@
+using System;
+
 namespace PH.FluentValidationExtensions.Test.Image;
 
 public class ImageSample
 {
+    /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
+    public ImageSample()
+    {
+        ContentType = String.Empty;
+        FileName    = String.Empty;
+    }
+
     public string ContentType { get; set; }
     public string FileName { get; set; }
 
