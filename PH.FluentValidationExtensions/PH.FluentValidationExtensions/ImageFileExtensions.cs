@@ -6,6 +6,9 @@ using PH.FluentValidationExtensions.Validators.Image;
 
 namespace PH.FluentValidationExtensions
 {
+    /// <summary>
+    /// Provides extension methods for FluentValidation to validate image files.
+    /// </summary>
     public static class ImageFileExtensions
     {
 
@@ -23,7 +26,7 @@ namespace PH.FluentValidationExtensions
 
 	    /// <summary>
 	    /// Defines a 'Image By Content-Type' validator on the current rule builder.
-	    /// Validation will fail if the property not match the <see cref="allowedContentTypes">list of allowed content-types</see>.
+	    /// Validation will fail if the property not match the list of allowed content-types.
 	    /// </summary>
 	    /// <typeparam name="T">Type of object being validated</typeparam>
 	    /// <param name="ruleBuilder">The rule builder on which the validator should be defined</param>
@@ -49,7 +52,7 @@ namespace PH.FluentValidationExtensions
 
 	    /// <summary>
 	    /// Defines a 'Image By File Extension' validator on the current rule builder.
-	    /// Validation will fail if the property not match the <see cref="allowedFileExt">list of allowed content-types</see>.
+	    /// Validation will fail if the property not match the list of allowed content-types.
 	    /// </summary>
 	    /// <typeparam name="T"></typeparam>
 	    /// <param name="ruleBuilder">The rule builder.</param>
