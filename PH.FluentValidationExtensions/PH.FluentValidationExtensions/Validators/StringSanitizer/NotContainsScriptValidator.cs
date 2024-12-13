@@ -40,44 +40,28 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
                 return !StringSanitizerValidatorExtensions.ContainsScriptTag($"{value}"); 
             }
 
-            if (typeof(IEnumerable<char?>).IsAssignableFrom(type))
+            if (typeof(IEnumerable<char?>).IsAssignableFrom(type) && (value is IEnumerable<char?> u))
             {
-                if (!(value is IEnumerable<char?> u))
-                {
-                    return false;
-                }
                 var r = string.Join("", u);
                 return !StringSanitizerValidatorExtensions.ContainsScriptTag(r);
             }
 
-            if (typeof(IEnumerable<char>).IsAssignableFrom(type))
+            if (typeof(IEnumerable<char>).IsAssignableFrom(type) && (value is IEnumerable<char> u3))
             {
-                if (!(value is IEnumerable<char> u))
-                {
-                    return false;
-                }
-                var r = string.Join("", u);
+                var r = string.Join("", u3);
                 return !StringSanitizerValidatorExtensions.ContainsScriptTag(r);
             }
             
             
-            if (typeof(IEnumerable<string>).IsAssignableFrom(type))
+            if (typeof(IEnumerable<string>).IsAssignableFrom(type) && (value is IEnumerable<string> u2))
             {
-                if (!(value is IEnumerable<string> u))
-                {
-                    return false;
-                }
-                var r      = string.Join("", u);
+                var r = string.Join("", u2);
                 return !StringSanitizerValidatorExtensions.ContainsScriptTag(r); 
             }
             
-            if(typeof(IEnumerable<string?>).IsAssignableFrom(type))
+            if(typeof(IEnumerable<string?>).IsAssignableFrom(type) && (value is IEnumerable<string?> u1))
             {
-                if (!(value is IEnumerable<string?> u))
-                {
-                    return false;
-                }
-                var r = string.Join("", u);
+                var r = string.Join("", u1);
                 return !StringSanitizerValidatorExtensions.ContainsScriptTag(r);
             }
 
