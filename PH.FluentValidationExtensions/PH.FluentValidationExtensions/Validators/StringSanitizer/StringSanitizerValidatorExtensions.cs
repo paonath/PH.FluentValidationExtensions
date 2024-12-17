@@ -19,17 +19,7 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
     /// </remarks>
     public static class StringSanitizerValidatorExtensions
     {
-        /// <summary>
-        ///     Adds a validation rule to ensure that the string property does not contain any script-related content.
-        /// </summary>
-        /// <typeparam name="T">The type of the object being validated.</typeparam>
-        /// <param name="ruleBuilder">The rule builder on which the validation rule is defined.</param>
-        /// <returns>An instance of <see cref="IRuleBuilderOptions{T, TProperty}" /> to allow further configuration of the rule.</returns>
-        /// <remarks>
-        ///     This method uses the <see cref="NotContainsScriptValidator{T}" /> to perform the validation.
-        /// </remarks>
-        public static IRuleBuilderOptions<T, string?> WithNoScripts<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
-            ruleBuilder.SetValidator(new NotContainsScriptValidator<T>());
+
 
         /// <summary>
         ///     Adds a validation rule to ensure that the property being validated does not contain script-related content.

@@ -46,4 +46,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PH.FluentValidationExtensions.Abstractions\PH.FluentValidationExtensions.Abstractions.csproj" />
+  </ItemGroup>
+
 </Project>

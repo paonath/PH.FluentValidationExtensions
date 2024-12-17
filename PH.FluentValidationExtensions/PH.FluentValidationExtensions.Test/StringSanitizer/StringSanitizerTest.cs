@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentValidation;
 using Microsoft.VisualBasic;
+using PH.FluentValidationExtensions.Abstractions.StringSanitizer;
 using PH.FluentValidationExtensions.Validators.StringSanitizer;
 using Xunit;
 using static PH.FluentValidationExtensions.Test.StringSanitizer.StringSanitizerTest;
@@ -10,7 +11,7 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
 {
     public class StringSanitizerTest
     {
-
+        
         [Theory]
         [InlineData(null)]
         [InlineData("")]
@@ -157,6 +158,7 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
 
 
 
+        
         internal class Sample
         {
             public string? StringValue { get; set; }
