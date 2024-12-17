@@ -349,3 +349,5 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 PH.FluentValidationExtensions/.sonarqube/
+PH.FluentValidationExtensions/dotCover.Output/
+PH.FluentValidationExtensions/dotCover.Output.html
