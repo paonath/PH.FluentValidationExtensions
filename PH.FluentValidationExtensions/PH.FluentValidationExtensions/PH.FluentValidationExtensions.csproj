@@ -29,11 +29,22 @@
     <ProjectReference Include="..\PH.FluentValidationExtensions.Abstractions\PH.FluentValidationExtensions.Abstractions.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Update="nuget_es_img.png" Pack="true" PackagePath="">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <!--<PropertyGroup>
+    <PackageIcon>nuget_es_img.png</PackageIcon>
+  </PropertyGroup>-->
+
   <ItemGroup>
     <None Update="README.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  
   <PropertyGroup>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
