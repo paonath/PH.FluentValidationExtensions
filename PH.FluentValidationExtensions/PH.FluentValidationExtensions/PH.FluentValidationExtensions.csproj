@@ -5,41 +5,16 @@
 
    
      <Nullable Condition="'$(TargetFramework)' == 'netstandard2.1'">enable</Nullable>
-    
-    
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-	  <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 
+    <PackageId>PH.FluentValidationExtensions</PackageId>
+    <Description>
+      A tiny c# utility extend FluentValidation. The code is written in .NET C#.
 
-	  <PackageId>PH.FluentValidationExtensions</PackageId>
-
-
-	  <Description>
-		  A tiny c# utility extend FluentValidation. The code is written in .NET C#.
-		  
-	  </Description>
-	  <PackageReleaseNotes>
-		  Add support for missing image/png and .png file ext.
-	  </PackageReleaseNotes>
-
-
-	  <PackageTags>fluentvalidation</PackageTags>
-
-	  <PackageVersion>0.0.2</PackageVersion>
-
-	  
-	  <RepositoryUrl>https://github.com/paonath/PH.FluentValidationExtensions</RepositoryUrl>
-	  <PackageProjectUrl>https://github.com/paonath/PH.FluentValidationExtensions</PackageProjectUrl>
-	  <PackageIconUrl>https://raw.githubusercontent.com/paonath/Icons/master/nuget_es_img.png</PackageIconUrl>
-
-	  <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
-
-	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
-	  <IncludeSymbols>true</IncludeSymbols>
-	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-
+    </Description>
+    <PackageReleaseNotes>
+      Added support for string validation to prevent script tags from being inserted
+    </PackageReleaseNotes> 
+  
   </PropertyGroup>
 
   <ItemGroup>
