@@ -29,4 +29,18 @@
     <ProjectReference Include="..\PH.FluentValidationExtensions.Abstractions\PH.FluentValidationExtensions.Abstractions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="README.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <PropertyGroup>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+
 </Project>
