@@ -59,7 +59,12 @@ public class ImageByContentTypeValidatorTest
     [Fact]
     public void TestException()
     {
+        #if NET6_0
+        Exception e = null;
+        #else
         Exception? e = null;
+        #endif
+        
         try
         {
             var a = new InvalidImageByContentTypeValidatorToBeTested

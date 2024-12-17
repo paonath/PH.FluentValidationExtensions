@@ -57,7 +57,13 @@ public class ImageByFileExtValidatorTest
     [Fact]
     public void TestException()
     {
+        #if NET6_0
+        Exception e = null;
+        #else
         Exception? e = null;
+        #endif
+        
+        
         try
         {
             var a = new InvalidImageByFileExtValidatorToBeTested()
@@ -66,7 +72,7 @@ public class ImageByFileExtValidatorTest
             };
             Assert.Equal(CascadeMode.Continue, a.ClassLevelCascadeMode);
         }
-        catch (Exception? exception)
+        catch (Exception exception)
         {
             e = exception;
         }

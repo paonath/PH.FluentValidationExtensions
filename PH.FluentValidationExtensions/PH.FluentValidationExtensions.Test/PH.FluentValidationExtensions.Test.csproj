@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <TargetFrameworks>net8.0; net6.0</TargetFrameworks>
+    <Nullable Condition="'$(TargetFramework)' == 'net8.0'">enable</Nullable>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>

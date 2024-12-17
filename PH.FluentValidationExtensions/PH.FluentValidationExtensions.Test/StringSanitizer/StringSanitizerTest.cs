@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.Linq;
 using FluentValidation;
 using Microsoft.VisualBasic;
@@ -16,7 +17,12 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         [InlineData(null)]
         [InlineData("")]
         [InlineData("A simple text with the word script within.")]
+        #if NET6_0
+        public void WithNoScriptValid(string valueToTest)
+        #else
         public void WithNoScriptValid(string? valueToTest)
+        #endif
+        
         {
 
             Sample sample    = new Sample() { StringValue = valueToTest };
@@ -32,7 +38,11 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         [InlineData("A simple text with the word script and script example: <script type='text/javascript'></script> within.")]
         [InlineData("</script> within.")]
         [InlineData("/script> within.")]
+        #if NET6_0
+        public void WithNoScriptInvalid(string valueToTest)
+        #else
         public void WithNoScriptInvalid(string? valueToTest)
+        #endif
         {
 
             Sample sample    = new Sample() { StringValue = valueToTest };
@@ -48,7 +58,12 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         [Theory]
         [InlineData(null, true)]
         [InlineData("A simple text with the word script and script example: <script type='text/javascript'></script> within.", false)]
+        #if NET6_0
+        public void TestSCriptsWithGenerics(string valueToTest, bool valid)
+        #else
         public void TestSCriptsWithGenerics(string? valueToTest, bool valid)
+        #endif
+       
         {
 
             Sample sample = new Sample() { StringValue = valueToTest };
@@ -64,13 +79,23 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
 
         [Theory]
         [InlineData(null, true)]
-        [InlineData("A simple text with the word script and script example: <script type='text/javascript'></script> within.",
-                       false)]
+        [InlineData("A simple text with the word script and script example: <script type='text/javascript'></script> within.", false)]
+
+        #if NET6_0
+        public void TestSCriptsWithSimpleString(string valueToTest, bool valid)
+        #else
         public void TestSCriptsWithSimpleString(string? valueToTest, bool valid)
+        #endif
+        
         {
 
             var validator = new GenericValidator<string>();
+            #if NET6_0
+            Exception exception = null;
+            #else
             Exception? exception = null;
+            #endif
+            
 
             try
             {
@@ -107,7 +132,12 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         [InlineData("valid", null, true)]
         [InlineData("valid", "valid", true)]
         [InlineData("not-valid<script", "not-valid", false)]
+        #if NET6_0
+        public void TestNestedProperties(string valueToTest, string alwaysgood, bool valid)
+        #else
         public void TestNestedProperties(string? valueToTest, string? alwaysgood, bool valid)
+        #endif
+        
         {
             NestedValidator validator = new NestedValidator();
 
@@ -139,16 +169,27 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
             {
                 ArrayOfChars            = validTxt.ToCharArray(),
                 ArrayOfStrings          = validTxt.Split(' '),
-                ArrayOfNullableChars    = validTxt.ToCharArray().Select(x => new char?(x)).ToArray(),
-                ArrayOffNullableStrings = validTxt.Split(' ').Select(x => (string?)(x)).ToArray()
+                #if NET6_0
+                
+                #else
+                ArrayOfNullableChars = validTxt.ToCharArray().Select(x => new char?(x)).ToArray(),
+                ArrayOffNullableStrings = validTxt.Split(' ').Select(x => (string?)(x)).ToArray() 
+                #endif
+               
             });
 
             var notValid = validator.Validate(new WithArray()
             {
                 ArrayOfChars            = notValidTxt.ToCharArray(),
                 ArrayOfStrings          = notValidTxt.Split(' '),
-                ArrayOfNullableChars    = notValidTxt.ToCharArray().Select(x => new char?(x)).ToArray(),
+                #if NET6_0
+                
+                #else
+                ArrayOfNullableChars = notValidTxt.ToCharArray().Select(x => new char?(x)).ToArray(),
                 ArrayOffNullableStrings = notValidTxt.Split(' ').Select(x => (string?)(x)).ToArray()
+                
+                #endif
+              
             });
             
             Assert.True(valid.IsValid);
@@ -161,7 +202,12 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         
         internal class Sample
         {
+            #if NET6_0
+            public string StringValue { get; set; }
+            #else
             public string? StringValue { get; set; }
+            #endif
+            
         }
         
         
@@ -178,19 +224,40 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
             /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
             public WithArray()
             {
-                ArrayOfChars            = [];
-                ArrayOfNullableChars    =[];
-                ArrayOfStrings          = [];
-                ArrayOffNullableStrings = [];
+                ArrayOfChars            = Array.Empty<Char>();
+                #if NET6_0
+
+                ArrayOfNullableChars    = Array.Empty<Char>();
+                ArrayOffNullableStrings = Array.Empty<string>();                
+                
+                #else
+                ArrayOfNullableChars = Array.Empty<Char?>();
+                ArrayOffNullableStrings = Array.Empty<string?>(); 
+                #endif
+                
+                ArrayOfStrings          = Array.Empty<string>();
+               
             }
 
             public char[] ArrayOfChars { get; set; }
 
-            public char?[] ArrayOfNullableChars { get; set; }
+            
             
             public string[] ArrayOfStrings { get; set; }
+
+            #if NET6_0
+
+            public char[]   ArrayOfNullableChars    { get; set; }
+            public string[] ArrayOffNullableStrings { get; set; }
             
+            #else
+
+            public char?[]   ArrayOfNullableChars    { get; set; }
             public string?[] ArrayOffNullableStrings { get; set; }
+
+            #endif
+            
+           
             
             
         }
@@ -208,7 +275,21 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         
         internal class WithNested
         {
+            #if NET6_0
+            public int    InvValue    { get; set; }
+            public string StringValue { get; set; }
+            public Sample Nested      { get; }
+
+            private WithNested(Sample n)
+            {
+                Nested = n;
+            }
+
+            public static WithNested Init(string s, Sample sample) => new WithNested(sample) { StringValue = s, InvValue = 0 };
             
+            #else
+
+
             public int?       InvValue    { get; set; }
             public string?    StringValue { get; set; }
             public Sample?    Nested      { get; }
@@ -218,7 +299,11 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
                 Nested = n;
             }
 
-            public static WithNested Init(string? s, Sample? sample) => new WithNested(sample) { StringValue = s , InvValue = 0};
+            public static WithNested Init(string? s, Sample? sample) => new WithNested(sample) { StringValue =
+ s , InvValue = 0};
+            
+            #endif
+          
             
         }
         
@@ -230,6 +315,18 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
             }
         }
         
+        #if NET6_0
+
+        internal class NestedValidator : GenericValidator<WithNested>
+        {
+            public NestedValidator()
+            {
+
+            }
+        }
+        
+        #else
+
         internal class NestedValidator : GenericValidator<WithNested?>
         {
             public NestedValidator()
@@ -237,5 +334,9 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
                 
             }
         }
+        
+        #endif
+        
+        
     }
 }

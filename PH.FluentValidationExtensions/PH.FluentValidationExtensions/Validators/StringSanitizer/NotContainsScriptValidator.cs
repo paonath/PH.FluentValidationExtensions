@@ -28,9 +28,13 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
         /// <returns>True if valid, otherwise false.</returns>
         public override bool IsValid(ValidationContext<T> context, TProperty value)
         {
-            
-            
+
+            #if NETSTANDARD2_0
+            Type type = value?.GetType();
+            #else
             Type? type = value?.GetType();
+            #endif
+            
 
             var skip = context.InstanceToValidate?.GetType()?.GetProperty(context.PropertyPath)?.GetCustomAttribute<DisableScriptCheckValidationAttribute>();
             if (null != skip)
@@ -44,24 +48,38 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
                 return !StringSanitizerValidatorExtensions.ContainsScriptTag($"{value}"); 
             }
 
-            if (typeof(IEnumerable<char?>).IsAssignableFrom(type) && (value is IEnumerable<char?> u))
+            #if NETSTANDARD2_0
+
+            #else
+
+             if (typeof(IEnumerable<char?>).IsAssignableFrom(type) && (value is IEnumerable<char?> u))
             {
                 var r = string.Join("", u);
                 return !StringSanitizerValidatorExtensions.ContainsScriptTag(r);
             }
 
+
+            #endif
+            
+           
             if (typeof(IEnumerable<char>).IsAssignableFrom(type) && (value is IEnumerable<char> u3))
             {
                 var r = string.Join("", u3);
                 return !StringSanitizerValidatorExtensions.ContainsScriptTag(r);
             }
+            #if NETSTANDARD2_0
+            
+            #else
 
-            if (typeof(IEnumerable<string?>).IsAssignableFrom(type) && (value is IEnumerable<string?> u1))
+             if (typeof(IEnumerable<string?>).IsAssignableFrom(type) && (value is IEnumerable<string?> u1))
             {
                 var r = string.Join("", u1);
                 return !StringSanitizerValidatorExtensions.ContainsScriptTag(r);
             }
 
+            
+            #endif
+           
             
             
 
@@ -94,7 +112,7 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
             
 
             var props = GetProperties(typeToCheck);
-            if (null == props)
+            if (null == props || props.Length == 0)
             {
                 return false;
             }
@@ -104,7 +122,12 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
                 
                 if (propertyInfo.PropertyType == typeof(string))
                 {
+                    #if NETSTANDARD2_0
+                    var v = (string)propertyInfo.GetValue(value, null);
+                    #else
                     var v = (string?)propertyInfo.GetValue(value, null);
+                    #endif
+
                     if (StringSanitizerValidatorExtensions.ContainsScriptTag(v))
                     {
                         return true;

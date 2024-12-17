@@ -44,7 +44,35 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
         /// <returns>
         ///     <c>true</c> if the string contains a script tag; otherwise, <c>false</c>.
         /// </returns>
-        internal static bool ContainsScriptTag(string? value)
+
+        #if NETSTANDARD2_0
+
+        internal static bool ContainsScriptTag(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return false;
+            }
+
+            var start = value.ToLowerInvariant().Contains("<script");
+            if (start)
+            {
+                return true;
+            }
+
+            var end = value.ToLowerInvariant().Contains("script>");
+            if (end)
+            {
+                return true;
+            }
+
+
+            return false;
+        }
+        
+        #else
+
+         internal static bool ContainsScriptTag(string? value)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
@@ -66,5 +94,9 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
             
             return false;
         }
+        
+        #endif
+        
+       
     }
 }
