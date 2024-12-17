@@ -18,7 +18,6 @@
 
     <RepositoryUrl>https://github.com/paonath/PH.FluentValidationExtensions</RepositoryUrl>
     <PackageProjectUrl>https://github.com/paonath/PH.FluentValidationExtensions</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/paonath/Icons/master/nuget_es_img.png</PackageIconUrl>
 
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 
@@ -35,5 +34,10 @@
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
 		<SourceRevisionId>build$([System.DateTime]::UtcNow.ToString("yyyyMMdd"))-rel</SourceRevisionId>
 	</PropertyGroup>
+
+  <PropertyGroup>
+    <PathMap>$(MsBuildThisFileDirectory)=./</PathMap>
+  </PropertyGroup>
+
 </Project>
 
