@@ -40,10 +40,6 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="[11.11.0,)" />
-    <PackageReference Include="GitInfo" Version="2.2.0">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

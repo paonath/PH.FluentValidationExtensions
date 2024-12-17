@@ -30,10 +30,7 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
             
             
             Type? type = value?.GetType();
-            if (null == type)
-            {
-                return true;
-            }
+            
 
             if (type == typeof(string))
             {
@@ -51,26 +48,17 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
                 var r = string.Join("", u3);
                 return !StringSanitizerValidatorExtensions.ContainsScriptTag(r);
             }
-            
-            
-            if (typeof(IEnumerable<string>).IsAssignableFrom(type) && (value is IEnumerable<string> u2))
-            {
-                var r = string.Join("", u2);
-                return !StringSanitizerValidatorExtensions.ContainsScriptTag(r); 
-            }
-            
-            if(typeof(IEnumerable<string?>).IsAssignableFrom(type) && (value is IEnumerable<string?> u1))
+
+            if (typeof(IEnumerable<string?>).IsAssignableFrom(type) && (value is IEnumerable<string?> u1))
             {
                 var r = string.Join("", u1);
                 return !StringSanitizerValidatorExtensions.ContainsScriptTag(r);
             }
 
             
-
             
 
-
-            if (type.IsNested)
+            if (type?.IsNested ?? false)
             {
                 var any = AnyPropertiesOfTypeStringWithScrips(type, value);
                 return !any;

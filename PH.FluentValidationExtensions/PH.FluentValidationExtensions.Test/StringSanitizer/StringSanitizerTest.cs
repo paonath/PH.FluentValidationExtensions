@@ -30,6 +30,7 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         [Theory]
         [InlineData("A simple text with the word script and script example: <script type='text/javascript'></script> within.")]
         [InlineData("</script> within.")]
+        [InlineData("/script> within.")]
         public void WithNoScriptInvalid(string? valueToTest)
         {
 
@@ -60,10 +61,48 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
 
         }
 
+        [Theory]
+        [InlineData(null, true)]
+        [InlineData("A simple text with the word script and script example: <script type='text/javascript'></script> within.",
+                       false)]
+        public void TestSCriptsWithSimpleString(string? valueToTest, bool valid)
+        {
+
+            var validator = new GenericValidator<string>();
+            Exception? exception = null;
+
+            try
+            {
+                #pragma warning disable CS8604 // Possible null reference argument.
+                var validation = validator.Validate(valueToTest);
+                #pragma warning restore CS8604 // Possible null reference argument.
+                Assert.Equal(validation.IsValid, valid);
+            }
+            catch (Exception e)
+            {
+                exception = e;
+                
+            }
+
+            if (string.IsNullOrWhiteSpace(valueToTest))
+            {
+                Assert.NotNull(exception);
+            }
+            else
+            {
+                Assert.Null(exception);
+            }
+
+            
+
+
+        }
+
         
         
         [Theory]
         [InlineData(null, null, true)]
+        [InlineData("", null, true)]
         [InlineData("valid", null, true)]
         [InlineData("valid", "valid", true)]
         [InlineData("not-valid<script", "not-valid", false)]
@@ -105,7 +144,8 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
 
             var notValid = validator.Validate(new WithArray()
             {
-                ArrayOfChars            = notValidTxt.ToCharArray(), ArrayOfStrings = notValidTxt.Split(' '),
+                ArrayOfChars            = notValidTxt.ToCharArray(),
+                ArrayOfStrings          = notValidTxt.Split(' '),
                 ArrayOfNullableChars    = notValidTxt.ToCharArray().Select(x => new char?(x)).ToArray(),
                 ArrayOffNullableStrings = notValidTxt.Split(' ').Select(x => (string?)(x)).ToArray()
             });

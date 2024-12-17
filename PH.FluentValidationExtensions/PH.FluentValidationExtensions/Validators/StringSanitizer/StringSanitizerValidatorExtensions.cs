@@ -73,12 +73,7 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
                 return true;
             }
 
-            var endTag = value.Contains("/script>", StringComparison.CurrentCultureIgnoreCase);
-            if (endTag)
-            {
-                return true;
-            }
-
+            
             return false;
         }
     }
