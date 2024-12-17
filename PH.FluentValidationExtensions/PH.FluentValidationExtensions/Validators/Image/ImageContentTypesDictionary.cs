@@ -1,12 +1,17 @@
-﻿namespace PH.FluentValidationExtensions.Validators
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace PH.FluentValidationExtensions.Validators.Image
 {
     /// <summary>
     /// A List of image content types
     /// </summary>
     internal static class ImageContentTypesDictionary
     {
-
-        public static string[] All = new string[]
+        
+        public static readonly string[] All = new string[]
         {
             "image/bmp"
             , "image/cis-cod"

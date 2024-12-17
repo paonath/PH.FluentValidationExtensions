@@ -1,6 +1,21 @@
 # PH.FluentValidationExtensions
 My Extensions to Fluent Validation
 
+## String Sanitizer
+
+### `WithNoScripts`
+
+It is a simple extension of the validators to check the presence of a `<stript> ` tag within a string
+```csharp
+public class SampleValidator : AbstractValidator<Sample>
+{
+    public SampleValidator()
+    {
+        RuleFor(x => x.StringValue).WithNoScripts();
+    }
+}
+```
+
 ## Image Validation
 
 ### Build Rule
@@ -24,3 +39,4 @@ public class ExtendedImageByContentTypeValidatorToBeTested : AbstractValidator<I
 	}
 }
 ```
+

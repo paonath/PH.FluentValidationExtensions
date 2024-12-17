@@ -1,4 +1,9 @@
-﻿namespace PH.FluentValidationExtensions.Validators
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace PH.FluentValidationExtensions.Validators.Image
 {
 	/// <summary>
 	/// A List of image file extensions
@@ -6,7 +11,7 @@
 	internal static class ImageFileExtensionsDictionary
 	{
 
-		public static string[] All = new string[]
+		public static readonly string[] All = new string[]
 		{
 			"bmp", "cod", "gif", "ief", "jpe", "jpeg", "jpg", "jfif", "svg", "tif", "tiff", "ras", "cmx", "ico", "pnm",
 			"pbm", "pgm", "png", "ppm", "rgb", "webp", "xbm", "xpm", "xwd"
