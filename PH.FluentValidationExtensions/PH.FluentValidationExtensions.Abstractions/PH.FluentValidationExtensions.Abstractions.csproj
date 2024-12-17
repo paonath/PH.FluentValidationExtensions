@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>PH.FluentValidationExtensions.Abstractions</PackageId>
+    <Description>
+      Base Abstractions for package PH.FluentValidationExtensions
+
+    </Description>
+    <PackageReleaseNotes>
+      Added support for skip string validation using attribute
+    </PackageReleaseNotes> 
+  </PropertyGroup>
+
+
+ 
+
+
+</Project>
