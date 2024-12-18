@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PH.FluentValidationExtensio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PH.FluentValidationExtensions.Abstractions", "PH.FluentValidationExtensions.Abstractions\PH.FluentValidationExtensions.Abstractions.csproj", "{75C375A2-A96A-4987-BE1C-6C5227820351}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PH.FluentValidationExtensions.TestModels", "PH.FluentValidationExtensions.TestModels\PH.FluentValidationExtensions.TestModels.csproj", "{2DA2083D-4DEE-4BC2-9378-C25D4C4B8501}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{75C375A2-A96A-4987-BE1C-6C5227820351}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75C375A2-A96A-4987-BE1C-6C5227820351}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75C375A2-A96A-4987-BE1C-6C5227820351}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DA2083D-4DEE-4BC2-9378-C25D4C4B8501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DA2083D-4DEE-4BC2-9378-C25D4C4B8501}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DA2083D-4DEE-4BC2-9378-C25D4C4B8501}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DA2083D-4DEE-4BC2-9378-C25D4C4B8501}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

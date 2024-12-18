@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PH.FluentValidationExtensions.Abstractions\PH.FluentValidationExtensions.Abstractions.csproj" />
+    <ProjectReference Include="..\PH.FluentValidationExtensions.TestModels\PH.FluentValidationExtensions.TestModels.csproj" />
     <ProjectReference Include="..\PH.FluentValidationExtensions\PH.FluentValidationExtensions.csproj" />
   </ItemGroup>
 

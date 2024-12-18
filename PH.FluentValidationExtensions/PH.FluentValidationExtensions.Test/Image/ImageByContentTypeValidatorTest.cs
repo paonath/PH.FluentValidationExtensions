@@ -5,8 +5,14 @@ using Xunit;
 
 namespace PH.FluentValidationExtensions.Test.Image;
 
+/// <summary>
+/// 
+/// </summary>
 public class ImageByContentTypeValidatorTest
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Fact]
     public void Test()
     {
@@ -24,7 +30,9 @@ public class ImageByContentTypeValidatorTest
 
         Assert.False(isBad.IsValid);
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
     [Fact]
     public void TestWithListOfContentTypes()
     {
@@ -43,7 +51,10 @@ public class ImageByContentTypeValidatorTest
 
     }
 
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     [Fact]
     public async Task TestAsync()
     {
@@ -55,7 +66,10 @@ public class ImageByContentTypeValidatorTest
 
         Assert.True(isGood.IsValid);
     }
-
+    
+    /// <summary>
+    /// 
+    /// </summary>
     [Fact]
     public void TestException()
     {

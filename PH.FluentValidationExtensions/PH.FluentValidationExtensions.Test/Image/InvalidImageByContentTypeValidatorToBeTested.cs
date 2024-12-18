@@ -1,12 +1,24 @@
+#region
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using FluentValidation;
 
-namespace PH.FluentValidationExtensions.Test.Image;
+#endregion
 
-public class InvalidImageByContentTypeValidatorToBeTested : AbstractValidator<ImageSample>
+namespace PH.FluentValidationExtensions.Test.Image
 {
-    public InvalidImageByContentTypeValidatorToBeTested()
+    /// <summary>
+    /// </summary>
+    public class InvalidImageByContentTypeValidatorToBeTested : AbstractValidator<ImageSample>
     {
-        RuleFor(x => x.ContentType).ImageFileByContentType(new List<string>());
+        /// <summary>
+        /// </summary>
+        public InvalidImageByContentTypeValidatorToBeTested()
+        {
+            RuleFor(x => x.ContentType).ImageFileByContentType(new List<string>());
+        }
     }
 }
