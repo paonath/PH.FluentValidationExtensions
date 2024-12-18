@@ -19,8 +19,6 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
     /// </remarks>
     public static class StringSanitizerValidatorExtensions
     {
-
-
         /// <summary>
         ///     Adds a validation rule to ensure that the property being validated does not contain script-related content.
         /// </summary>
@@ -46,7 +44,6 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
         /// </returns>
 
         #if NETSTANDARD2_0
-
         internal static bool ContainsScriptTag(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -69,10 +66,8 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
 
             return false;
         }
-        
         #else
-
-         internal static bool ContainsScriptTag(string? value)
+        internal static bool ContainsScriptTag(string? value)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
@@ -91,12 +86,10 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
                 return true;
             }
 
-            
+
             return false;
         }
-        
+
         #endif
-        
-       
     }
 }

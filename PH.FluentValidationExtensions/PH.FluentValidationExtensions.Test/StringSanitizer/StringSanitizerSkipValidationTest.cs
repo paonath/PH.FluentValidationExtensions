@@ -10,11 +10,17 @@ using static PH.FluentValidationExtensions.Test.StringSanitizer.StringSanitizerS
 
 namespace PH.FluentValidationExtensions.Test.StringSanitizer
 {
-    
+    /// <summary>
+    /// 
+    /// </summary>
     public class StringSanitizerSkipValidationTest
     {
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="valid"></param>
         [Theory]
         [InlineData("test with no script", true)]
         [InlineData("A simple text with the word script and script example: <script type='text/javascript'></script> within.", false)]
@@ -49,7 +55,9 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
 
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Fact]
         public void TestEmptyClassSkipPropertiesValidation()
         {
@@ -63,7 +71,9 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         }
 
         
-        
+        /// <summary>
+        /// 
+        /// </summary>
         internal class EmptyClass
         {
             
@@ -100,11 +110,11 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
             #endif
             
         }
-        
+
         internal class ClassToValidate : AbsClassToValidate
         {
-            
-            
+
+
         }
 
         internal class TestSkipValidator<TClass> : AbstractValidator<TClass> where TClass : AbsClassToValidate , new()

@@ -1,29 +1,48 @@
+#region
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using FluentValidation;
 
-namespace PH.FluentValidationExtensions.Test.Image;
+#endregion
 
-public class ImageByFileExtValidatorToBeTested : AbstractValidator<ImageSample>
+namespace PH.FluentValidationExtensions.Test.Image
 {
-    public ImageByFileExtValidatorToBeTested()
+    /// <summary>
+    /// </summary>
+    public class ImageByFileExtValidatorToBeTested : AbstractValidator<ImageSample>
     {
-        RuleFor(x => x.FileName).ImageFileByFileExtension();
+        /// <summary>
+        /// </summary>
+        public ImageByFileExtValidatorToBeTested()
+        {
+            RuleFor(x => x.FileName).ImageFileByFileExtension();
+        }
+    }
+
+    /// <summary>
+    /// </summary>
+    public class InvalidImageByFileExtValidatorToBeTested : AbstractValidator<ImageSample>
+    {
+        /// <summary>
+        /// </summary>
+        public InvalidImageByFileExtValidatorToBeTested()
+        {
+            RuleFor(x => x.FileName).ImageFileByFileExtension(new List<string>());
+        }
+    }
+
+    /// <summary>
+    /// </summary>
+    public class ExtendedImageByFileExtValidatorToBeTested : AbstractValidator<ImageSample>
+    {
+        /// <summary>
+        /// </summary>
+        public ExtendedImageByFileExtValidatorToBeTested()
+        {
+            RuleFor(c => c.FileName).ImageFileByFileExtension(new List<string> { "jpg", "png" });
+        }
     }
 }
-
-public class InvalidImageByFileExtValidatorToBeTested : AbstractValidator<ImageSample>
-{
-    public InvalidImageByFileExtValidatorToBeTested()
-    {
-        RuleFor(x => x.FileName).ImageFileByFileExtension(new List<string>());
-    }
-}
-
-public class ExtendedImageByFileExtValidatorToBeTested : AbstractValidator<ImageSample>
-{
-    public ExtendedImageByFileExtValidatorToBeTested()
-    {
-        RuleFor(c => c.FileName).ImageFileByFileExtension(new List<string>() { "jpg", "png" });
-    }
-}
-
