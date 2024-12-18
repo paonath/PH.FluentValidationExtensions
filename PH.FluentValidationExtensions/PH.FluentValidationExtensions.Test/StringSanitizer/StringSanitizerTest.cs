@@ -1,18 +1,26 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.VisualBasic;
 using PH.FluentValidationExtensions.Abstractions.StringSanitizer;
+using PH.FluentValidationExtensions.TestModels;
 using PH.FluentValidationExtensions.Validators.StringSanitizer;
 using Xunit;
 using static PH.FluentValidationExtensions.Test.StringSanitizer.StringSanitizerTest;
 
 namespace PH.FluentValidationExtensions.Test.StringSanitizer
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class StringSanitizerTest
     {
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="valueToTest"></param>
         [Theory]
         [InlineData(null)]
         [InlineData("")]
@@ -33,7 +41,11 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
             Assert.True(validation.IsValid);
 
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="valueToTest"></param>
         [Theory]
         [InlineData("A simple text with the word script and script example: <script type='text/javascript'></script> within.")]
         [InlineData("</script> within.")]
@@ -54,7 +66,11 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
             Assert.NotEmpty(validation.Errors);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="valueToTest"></param>
+        /// <param name="valid"></param>
         [Theory]
         [InlineData(null, true)]
         [InlineData("A simple text with the word script and script example: <script type='text/javascript'></script> within.", false)]
@@ -76,7 +92,11 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
 
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="valueToTest"></param>
+        /// <param name="valid"></param>
         [Theory]
         [InlineData(null, true)]
         [InlineData("A simple text with the word script and script example: <script type='text/javascript'></script> within.", false)]
@@ -125,7 +145,12 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         }
 
         
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="valueToTest"></param>
+        /// <param name="alwaysgood"></param>
+        /// <param name="valid"></param>
         [Theory]
         [InlineData(null, null, true)]
         [InlineData("", null, true)]
@@ -156,7 +181,9 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
             Assert.Equal(validation2.IsValid, valid);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Fact]
         public void TestArray()
         {
@@ -197,20 +224,44 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
             
         }
 
-
-
-        
-        internal class Sample
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="isValid"></param>
+        [Theory]
+        [InlineData("valid",  true)]
+        [InlineData("not-valid<script",  false)]
+        public void TestARecord(string v, bool isValid)
         {
-            #if NET6_0
-            public string StringValue { get; set; }
-            #else
-            public string? StringValue { get; set; }
-            #endif
+            var validator = new GenericValidator<SampleRecord>();
+
+            var validation = validator.Validate(new SampleRecord(v, 0));
             
+            Assert.Equal(isValid, validation.IsValid);
+
         }
         
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="isValid"></param>
+        /// <returns></returns>
+        [Theory]
+        [InlineData("valid", true)]
+        [InlineData("not-valid<script", false)]
+        public async Task TestRecordAsync(string v, bool isValid)
+        {
+            var validator = new GenericValidator<SampleRecord>();
+
+            var validation = await validator.ValidateAsync(new SampleRecord(v, 0));
+
+            Assert.Equal(isValid, validation.IsValid);
+
+        }
+
+
         internal class SampleValidator : AbstractValidator<Sample>
         {
             public SampleValidator()
@@ -218,50 +269,6 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
                 RuleFor(x => x.StringValue).WithNoScripts();
             }
         }
-        
-        internal class WithArray
-        {
-            /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
-            public WithArray()
-            {
-                ArrayOfChars            = Array.Empty<Char>();
-                #if NET6_0
-
-                ArrayOfNullableChars    = Array.Empty<Char>();
-                ArrayOffNullableStrings = Array.Empty<string>();                
-                
-                #else
-                ArrayOfNullableChars = Array.Empty<Char?>();
-                ArrayOffNullableStrings = Array.Empty<string?>(); 
-                #endif
-                
-                ArrayOfStrings          = Array.Empty<string>();
-               
-            }
-
-            public char[] ArrayOfChars { get; set; }
-
-            
-            
-            public string[] ArrayOfStrings { get; set; }
-
-            #if NET6_0
-
-            public char[]   ArrayOfNullableChars    { get; set; }
-            public string[] ArrayOffNullableStrings { get; set; }
-            
-            #else
-
-            public char?[]   ArrayOfNullableChars    { get; set; }
-            public string?[] ArrayOffNullableStrings { get; set; }
-
-            #endif
-            
-           
-            
-            
-        }
-        
         internal class WithArrayValidator : AbstractValidator<WithArray>
         {
             public WithArrayValidator()
@@ -273,40 +280,7 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
             }
         }
         
-        internal class WithNested
-        {
-            #if NET6_0
-            public int    InvValue    { get; set; }
-            public string StringValue { get; set; }
-            public Sample Nested      { get; }
-
-            private WithNested(Sample n)
-            {
-                Nested = n;
-            }
-
-            public static WithNested Init(string s, Sample sample) => new WithNested(sample) { StringValue = s, InvValue = 0 };
-            
-            #else
-
-
-            public int?       InvValue    { get; set; }
-            public string?    StringValue { get; set; }
-            public Sample?    Nested      { get; }
-            
-            private  WithNested(Sample? n)
-            {
-                Nested = n;
-            }
-
-            public static WithNested Init(string? s, Sample? sample) => new WithNested(sample) { StringValue =
- s , InvValue = 0};
-            
-            #endif
-          
-            
-        }
-        
+       
         internal class GenericValidator<T> : AbstractValidator<T>
         {
             public GenericValidator()
