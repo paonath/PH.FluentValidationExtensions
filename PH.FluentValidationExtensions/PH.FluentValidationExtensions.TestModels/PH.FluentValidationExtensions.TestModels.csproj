@@ -1,10 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0; net6.0</TargetFrameworks>
+    <TargetFrameworks>net8.0; net6.0;net48</TargetFrameworks>
     <Nullable Condition="'$(TargetFramework)' == 'net8.0'">enable</Nullable>
 
 
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PH.FluentValidationExtensions.Abstractions\PH.FluentValidationExtensions.Abstractions.csproj" />
+  </ItemGroup>
 
 </Project>
