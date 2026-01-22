@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FluentValidation;
 
@@ -19,6 +20,83 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
     /// </remarks>
     public static class StringSanitizerValidatorExtensions
     {
+
+        #region AvoidSpecialChars
+
+        /// <summary>
+        /// Adds a validation rule to ensure that the property value does not contain special characters,
+        /// except for those explicitly allowed.
+        /// </summary>
+        /// <typeparam name="T">The type of the object being validated.</typeparam>
+        /// <typeparam name="TProperty">The type of the property being validated.</typeparam>
+        /// <param name="rulebuilder">The rule builder on which the validation rule is defined.</param>
+        /// <param name="allowed">An array of characters that are explicitly allowed in the property value.</param>
+        /// <returns>
+        /// An instance of <see cref="IRuleBuilderOptions{T, TProperty}"/> to continue building the validation rule.
+        /// </returns>
+        /// <remarks>
+        /// This method uses the <see cref="AvoidSpecialCharsValidator{T, TProperty}"/> to enforce the rule.
+        /// It is particularly useful for sanitizing string properties by restricting the use of special characters,
+        /// which can help prevent security vulnerabilities.
+        /// </remarks>
+        public static IRuleBuilderOptions<T, TProperty>
+            AvoidSpecialChars<T, TProperty>(this IRuleBuilder<T, TProperty> rulebuilder, params char[] allowed) =>
+            rulebuilder.SetValidator(new AvoidSpecialCharsValidator<T, TProperty>(allowed));
+
+
+        /// <summary>
+        /// Adds a validation rule to ensure that the string property does not contain any characters
+        /// outside the specified allowed characters.
+        /// </summary>
+        /// <typeparam name="T">The type of the object being validated.</typeparam>
+        /// <typeparam name="TProperty">The type of the property being validated.</typeparam>
+        /// <param name="rulebuilder">The rule builder for the property being validated.</param>
+        /// <param name="charsAllowed">A string containing the characters that are allowed.</param>
+        /// <returns>An instance of <see cref="IRuleBuilderOptions{T, TProperty}"/> to continue building the validation rule.</returns>
+        /// <remarks>
+        /// This method converts the provided string of allowed characters into a character array
+        /// and applies a custom validator to ensure that the property value only contains these characters.
+        /// </remarks>
+        public static IRuleBuilderOptions<T, TProperty>
+            AvoidSpecialChars<T, TProperty>(this IRuleBuilder<T, TProperty> rulebuilder, string charsAllowed)
+        {
+            char[] c = charsAllowed.ToCharArray();
+            return rulebuilder.SetValidator(new AvoidSpecialCharsValidator<T, TProperty>(c));
+        }
+
+
+
+        internal static bool ContainsSpecialChar(
+            #if NETSTANDARD2_0
+            string v 
+            #else
+            string? v
+            #endif
+            , char[] allowed
+        )
+        {
+            if (string.IsNullOrWhiteSpace(v))
+            {
+                return false;
+            }
+
+
+            if (allowed.Length == 0)
+            {
+                var regexItem = new Regex("^[a-zA-Z0-9 ]*$", RegexOptions.Compiled , TimeSpan.FromMilliseconds(500));
+                return !regexItem.IsMatch(v);
+            }
+
+            var specials = v.Where(x => !char.IsLetterOrDigit(x)).ToArray();
+
+            return specials.Except(allowed).Any();
+
+        }
+
+        #endregion
+
+        #region WithNoScripts
+
         /// <summary>
         ///     Adds a validation rule to ensure that the property being validated does not contain script-related content.
         /// </summary>
@@ -91,5 +169,9 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
         }
 
         #endif
+        
+        
+
+        #endregion
     }
 }
