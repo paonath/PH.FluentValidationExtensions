@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using PH.FluentValidationExtensions.Abstractions.StringSanitizer;
+using PH.FluentValidationExtensions.TestModels;
 using PH.FluentValidationExtensions.Validators.StringSanitizer;
 using Xunit;
 using static PH.FluentValidationExtensions.Test.StringSanitizer.StringSanitizerSkipValidationTest;
@@ -24,10 +25,12 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         [Theory]
         [InlineData("test with no script", true)]
         [InlineData("A simple text with the word script and script example: <script type='text/javascript'></script> within.", false)]
-        #if NET6_0
-        public void SkipValidationByAttribute(string value, bool valid)
-        #else
+        #if NET8_0
         public void SkipValidationByAttribute(string? value, bool valid)
+        #else
+        public void SkipValidationByAttribute(string value, bool valid)
+        
+        
         #endif
         
         {
@@ -86,36 +89,9 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
                 RuleFor(x => x).WithNoScripts();
             }
         }
-        
-       
-
-        internal class AbsClassToValidate
-        {
-            #if NET6_0
-            public virtual string StringValue { get; set; }
-            #else
-            public virtual string? StringValue { get; set; }
-            #endif
-            
-        }
-        
-        
-        internal class SampleSkippingAttributeClassToValidate : AbsClassToValidate
-        {
-            [DisableScriptCheckValidation]
-            #if NET6_0
-            public override string StringValue { get; set; }
-            #else
-            public override string? StringValue { get; set; }
-            #endif
-            
-        }
-
-        internal class ClassToValidate : AbsClassToValidate
-        {
 
 
-        }
+
 
         internal class TestSkipValidator<TClass> : AbstractValidator<TClass> where TClass : AbsClassToValidate , new()
         {

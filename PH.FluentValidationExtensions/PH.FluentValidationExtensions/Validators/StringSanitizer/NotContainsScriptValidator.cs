@@ -191,11 +191,6 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
                 }
                 else
                 {
-                    if (propertyInfo.PropertyType.IsValueType)
-                    {
-                        continue;
-                    }
-
                     return AnyPropOfTypeStringWithScripsFromClass(propertyInfo, value);
                 }
             }
