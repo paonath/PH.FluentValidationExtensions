@@ -25,12 +25,9 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         [InlineData(null)]
         [InlineData("")]
         [InlineData("A simple text with the word script within.")]
-        #if NET8_0
-        public void WithNoScriptValid(string? valueToTest)
-        #else
-        public void WithNoScriptValid(string valueToTest)
         
-        #endif
+        public void WithNoScriptValid(string? valueToTest)
+       
         
         {
 
@@ -51,11 +48,9 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         [InlineData("A simple text with the word script and script example: <script type='text/javascript'></script> within.")]
         [InlineData("</script> within.")]
         [InlineData("/script> within.")]
-        #if NET8_0
+        
         public void WithNoScriptInvalid(string? valueToTest)
-        #else
-        public void WithNoScriptInvalid(string valueToTest)
-        #endif
+       
         {
 
             Sample sample    = new Sample() { StringValue = valueToTest };
@@ -75,11 +70,9 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         [Theory]
         [InlineData(null, true)]
         [InlineData("A simple text with the word script and script example: <script type='text/javascript'></script> within.", false)]
-        #if NET8_0
+       
         public void TestSCriptsWithGenerics(string? valueToTest, bool valid)
-        #else
-        public void TestSCriptsWithGenerics(string valueToTest, bool valid)
-        #endif
+     
        
         {
 
@@ -117,11 +110,9 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         [InlineData(null, true)]
         [InlineData("A simple text with the word script and script example: <script type='text/javascript'></script> within.", false)]
 
-        #if NET8_0
+        
         public void TestSCriptsWithSimpleString(string? valueToTest, bool valid)
-        #else
-        public void TestSCriptsWithSimpleString(string valueToTest, bool valid)
-        #endif
+       
         
         {
 
@@ -173,11 +164,9 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         [InlineData("valid", null, true)]
         [InlineData("valid", "valid", true)]
         [InlineData("not-valid<script", "not-valid", false)]
-        #if NET8_0
+        
         public void TestNestedProperties(string? valueToTest, string? alwaysgood, bool valid)
-        #else
-        public void TestNestedProperties(string valueToTest, string alwaysgood, bool valid)
-        #endif
+       
         
         {
             NestedValidator validator = new NestedValidator();
@@ -212,14 +201,11 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
             {
                 ArrayOfChars            = validTxt.ToCharArray(),
                 ArrayOfStrings          = validTxt.Split(' '),
-                #if NET8_0
+                
                 
                 ArrayOfNullableChars = validTxt.ToCharArray().Select(x => new char?(x)).ToArray(),
                 ArrayOffNullableStrings = validTxt.Split(' ').Select(x => (string?)(x)).ToArray() 
-                
-                #else
-               
-                #endif
+              
                
             });
 
@@ -227,15 +213,12 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
             {
                 ArrayOfChars            = notValidTxt.ToCharArray(),
                 ArrayOfStrings          = notValidTxt.Split(' '),
-                #if NET8_0
+                
                 
                 ArrayOfNullableChars = notValidTxt.ToCharArray().Select(x => new char?(x)).ToArray(),
                 ArrayOffNullableStrings = notValidTxt.Split(' ').Select(x => (string?)(x)).ToArray()
                 
-                #else
-               
-                
-                #endif
+           
               
             });
             
@@ -245,7 +228,7 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         }
 
 
-        #if !NET48_OR_GREATER
+       
 
         /// <summary>
         /// 
@@ -285,7 +268,7 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         }
 
         
-        #endif
+       
        
        
 
@@ -303,9 +286,9 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
                 RuleFor(x => x.ArrayOfChars).WithNoScripts();
                 RuleFor(x => x.ArrayOfStrings).WithNoScripts();
                 RuleFor(x => x.ArrayOfNullableChars).WithNoScripts();
-                #if NET8_0
+                
                 RuleFor(x => x.ArrayOffNullableStrings).WithNoScripts();
-                #endif
+               
                 
             }
         }
@@ -319,7 +302,7 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
             }
         }
         
-        #if NET8_0
+       
 
         internal class NestedValidator : GenericValidator<WithNested?>
         {
@@ -329,17 +312,7 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
             }
         }
         
-        #else
-
-        internal class NestedValidator : GenericValidator<WithNested>
-        {
-            public NestedValidator()
-            {
-                
-            }
-        }
-        
-        #endif
+    
         
         
     }

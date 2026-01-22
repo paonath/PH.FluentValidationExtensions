@@ -20,13 +20,8 @@ namespace PH.FluentValidationExtensions.TestModels
         /// </summary>
         [DisableAvoidSpecialCharsCheckValidation]
         [DisableScriptCheckValidation]
-        #if NET8_0
         public override string? StringValue { get; set; }
-        #else
-
-        public override string StringValue { get; set; }
-        
-        #endif
+       
 
     }
     /// <summary>
@@ -37,13 +32,9 @@ namespace PH.FluentValidationExtensions.TestModels
         /// <summary>
         /// 
         /// </summary>
-        #if NET8_0
+
         public virtual string? StringValue { get; set; }     
-        #else
-        public virtual string StringValue { get;  set; }
-        
-      
-        #endif
+     
 
     }
 
@@ -105,20 +96,9 @@ namespace PH.FluentValidationExtensions.TestModels
         {
             
             ArrayOfChars = Array.Empty<char>();
-            #if NET6_0
-            ArrayOfNullableChars    = Array.Empty<char>();
-            ArrayOffNullableStrings = Array.Empty<string>();
-
-            #else
-
-            #if NET8_0
+           
             ArrayOfNullableChars = Array.Empty<char?>();
             ArrayOffNullableStrings = Array.Empty<string?>();
-            
-                #endif
-            
-          
-            #endif
 
             ArrayOfStrings = Array.Empty<string>();
         }
@@ -134,18 +114,7 @@ namespace PH.FluentValidationExtensions.TestModels
         /// </summary>
         public string[] ArrayOfStrings { get; set; }
 
-        #if NET6_0
-        /// <summary>
-        ///     Sample Data
-        /// </summary>
-        public char[] ArrayOfNullableChars { get; set; }
-
-        /// <summary>
-        ///     Sample Data
-        /// </summary>
-        public string[] ArrayOffNullableStrings { get; set; }
-
-        #else
+       
         /// <summary>
         ///     Gets or sets an array of nullable characters.
         /// </summary>
@@ -156,21 +125,17 @@ namespace PH.FluentValidationExtensions.TestModels
         public char?[] ArrayOfNullableChars { get; set; }
 
 
-        #if NET8_0
+        
 
         /// <summary>
         ///     Sample Data
         /// </summary>
         public string?[] ArrayOffNullableStrings { get; set; }
         
-        
-        #endif
-        
-
-        #endif
+     
     }
 
-    #if NET6_0 || NET8_0
+    
     
    
     /// <summary>
@@ -178,7 +143,7 @@ namespace PH.FluentValidationExtensions.TestModels
     /// </summary>
     public record SampleRecord(string Value, int? Number);
     
-    #endif
+   
     /// <summary>
     ///     Sample Data
     /// </summary>
@@ -186,31 +151,24 @@ namespace PH.FluentValidationExtensions.TestModels
     {
        
         
-        #if NET8_0
+        
         /// <summary>
         ///     Sample Data
         /// </summary>
         public string? StringValue { get; set; }
         
-        #else
-        /// <summary>
-        ///     Sample Data
-        /// </summary>
-        public string StringValue { get; set; }
-        
-        #endif
+       
         
         
       
 
-        #if NET8_0
 
         /// <summary>
         /// 
         /// </summary>
         public string? AlwaysNullString { get; set; }
 
-        #endif
+     
     }
 
 
@@ -219,43 +177,13 @@ namespace PH.FluentValidationExtensions.TestModels
     /// </summary>
     public class WithNested
     {
-        #if NET6_0
-        /// <summary>
-        ///     Sample Data
-        /// </summary>
-        public int InvValue { get; set; }
-
-        /// <summary>
-        ///     Sample Data
-        /// </summary>
-        public string StringValue { get; set; }
-
-        /// <summary>
-        ///     Sample Data
-        /// </summary>
-        public Sample Nested { get; }
-
-        private WithNested(Sample n)
-        {
-            Nested = n;
-        }
-
-        /// <summary>
-        ///     Sample Data
-        /// </summary>
-        public static WithNested Init(string s, Sample sample) => new(sample)
-        {
-            StringValue = s, InvValue
-                = 0
-        };
-
-        #else
+        
         /// <summary>
         ///     Sample Data
         /// </summary>
         public int? InvValue { get; set; }
 
-        #if NET8_0
+       
 
           /// <summary>
         ///     Sample Data
@@ -282,36 +210,8 @@ namespace PH.FluentValidationExtensions.TestModels
             InvValue = 0
         };
         
-        #else
-
-        /// <summary>
-        ///     Sample Data
-        /// </summary>
-        public string StringValue { get; set; }
-
-        /// <summary>
-        ///     Sample Data
-        /// </summary>
-        public Sample Nested { get; }
-
-        private WithNested(Sample n)
-        {
-            Nested = n;
-        }
-
-        /// <summary>
-        ///     Sample Data
-        /// </summary>
-        public static WithNested Init(string s, Sample sample)
-        {
-            WithNested n = new WithNested(sample) { StringValue = s, InvValue = 5 };
-            return n;
-        }
-
-        #endif
       
 
-        #endif
     }
     
     
