@@ -267,10 +267,28 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
 
         }
 
-        
-       
-       
-       
+
+        [Theory]
+       // [InlineData("valid", true)]
+        [InlineData("not-valid<script", false)]
+        public async Task Validate_A_NestedOnlyData(string v, bool isValid)
+        {
+            var validator = new GenericValidator<NestedOnly>();
+
+            NestedOnly sample = new NestedOnly
+            {
+                Nested = WithNested.Init(v, new Sample() { StringValue = v })
+            };
+
+            var validation = await validator.ValidateAsync(sample);
+            Assert.Equal(isValid, validation.IsValid);
+
+        }
+
+
+
+
+
 
         internal class SampleValidator : AbstractValidator<Sample>
         {
