@@ -268,8 +268,20 @@ namespace PH.FluentValidationExtensions.Test.StringSanitizer
         }
 
 
+        /// <summary>
+        /// Verifies that a NestedOnly object containing the specified input string passes validation according to
+        /// defined rules.
+        /// </summary>
+        /// <remarks>This test uses a GenericValidator to asynchronously validate a NestedOnly object with
+        /// a nested structure. It asserts that the validation result matches the expected validity of the input
+        /// string.</remarks>
+        /// <param name="v">The input string to be assigned to the nested object's value and validated. Must not contain invalid
+        /// characters.</param>
+        /// <param name="isValid">Specifies whether the input string is expected to be valid according to the validation rules; <see
+        /// langword="true"/> if valid, otherwise <see langword="false"/>.</param>
+        /// <returns></returns>
         [Theory]
-       // [InlineData("valid", true)]
+        [InlineData("valid", true)]
         [InlineData("not-valid<script", false)]
         public async Task Validate_A_NestedOnlyData(string v, bool isValid)
         {
