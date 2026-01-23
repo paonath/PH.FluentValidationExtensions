@@ -31,12 +31,9 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
         /// <returns>True if valid, otherwise false.</returns>
         public override bool IsValid(ValidationContext<T> context, TProperty value)
         {
-            #if NETSTANDARD2_0
-            Type type = value?.GetType();
-            #else
+           
             var type = value?.GetType();
-            #endif
-
+           
             
             if (ContainsSkip(context))
             {
@@ -61,6 +58,7 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
 
         private bool IsValidByLoopingProperties(PropertyInfo[] props, TProperty value)
         {
+            bool foundOnError = false;
             foreach (var prop in props)
             {
                 if (prop.PropertyType == typeof(string))
@@ -83,7 +81,11 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
                         continue;
                     }
 
-                    return !AnyPropOfTypeStringWithScripsFromClass(prop, value);
+                    foundOnError = AnyPropOfTypeStringWithScripsFromClass(prop, value);
+                    if (foundOnError)
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -91,11 +93,20 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
         }
 
 
-        #if NETSTANDARD2_0
-        private bool IsValidByType(Type type, TProperty value)
-        #else
+        /// <summary>
+        /// Determines whether the specified value is valid for the given type by checking for the presence of script
+        /// tags in its string representation or its nested string properties.
+        /// </summary>
+        /// <remarks>This method checks for script tags in string representations of the value, including
+        /// within enumerables and nested types. For nested types, all string properties are examined. Ensure that the
+        /// type and value provided are compatible for accurate validation.</remarks>
+        /// <param name="type">The type against which to validate the value. This can be a string type, an enumerable of characters or
+        /// strings, or a nested type containing string properties.</param>
+        /// <param name="value">The value to validate. The value must be compatible with the specified type and will be checked for script
+        /// tags according to its type.</param>
+        /// <returns>true if the value does not contain script tags according to the validation rules for its type; otherwise,
+        /// false.</returns>
         private bool IsValidByType(Type? type, TProperty value)
-        #endif
         
         {
             if (type == typeof(string))
@@ -103,9 +114,7 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
                 return !StringSanitizerValidatorExtensions.ContainsScriptTag($"{value}");
             }
 
-            #if NETSTANDARD2_0
-            #else
-
+            
             if (typeof(IEnumerable<char?>).IsAssignableFrom(type) && (value is IEnumerable<char?> u))
             {
                 var r = string.Join("", u);
@@ -113,25 +122,19 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
             }
 
 
-            #endif
-
 
             if (typeof(IEnumerable<char>).IsAssignableFrom(type) && (value is IEnumerable<char> u3))
             {
                 var r = string.Join("", u3);
                 return !StringSanitizerValidatorExtensions.ContainsScriptTag(r);
             }
-            #if NETSTANDARD2_0
-            #else
-
+            
             if (typeof(IEnumerable<string?>).IsAssignableFrom(type) && (value is IEnumerable<string?> u1))
             {
                 var r = string.Join("", u1);
                 return !StringSanitizerValidatorExtensions.ContainsScriptTag(r);
             }
 
-
-            #endif
 
 
             if (type?.IsNested ?? false)
@@ -143,6 +146,16 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
             return true;
         }
 
+        /// <summary>
+        /// Determines whether the property specified in the validation context is marked with the
+        /// DisableScriptCheckValidationAttribute, indicating that script check validation should be skipped for that
+        /// property.
+        /// </summary>
+        /// <remarks>This method checks the property specified by the PropertyPath in the
+        /// ValidationContext for the presence of the DisableScriptCheckValidationAttribute, which indicates that script
+        /// check validation should be skipped for that property.</remarks>
+        /// <param name="context">The validation context containing the instance to validate and the property path to check for the attribute.</param>
+        /// <returns>true if the property has the DisableScriptCheckValidationAttribute applied; otherwise, false.</returns>
         private static bool ContainsSkip(ValidationContext<T> context)
         {
             var skip = context.InstanceToValidate?.GetType()?.GetProperty(context.PropertyPath)
@@ -155,6 +168,16 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
             return false;
         }
 
+        /// <summary>
+        /// Determines whether the specified property of the given object instance contains any string values that match
+        /// predefined script patterns.
+        /// </summary>
+        /// <remarks>Returns false if the property value is null. This method is typically used to
+        /// validate that string properties do not contain unwanted script content.</remarks>
+        /// <typeparam name="TGenProperty">The type of the object from which the property value is retrieved.</typeparam>
+        /// <param name="propertyInfo">The property metadata used to obtain and evaluate the property's value.</param>
+        /// <param name="value">The object instance from which the property value is obtained.</param>
+        /// <returns>true if the property contains string values that match the script patterns; otherwise, false.</returns>
         private bool AnyPropOfTypeStringWithScripsFromClass<TGenProperty>(PropertyInfo propertyInfo, TGenProperty value)
         {
             var pValue = propertyInfo.GetValue(value);
@@ -166,6 +189,17 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
             return AnyPropertiesOfTypeStringWithScrips(propertyInfo.PropertyType, pValue);
         }
 
+
+        /// <summary>
+        /// Determines whether any properties of the specified type contain string values that include script tags.
+        /// </summary>
+        /// <remarks>This method checks all properties of the specified type, including nested properties,
+        /// to identify any that are of type string and contain script tags. It skips value types and only inspects
+        /// reference types for nested properties.</remarks>
+        /// <typeparam name="TGenProperty">Specifies the type of the object from which property values are retrieved.</typeparam>
+        /// <param name="typeToCheck">The type to inspect for properties that may contain string values.</param>
+        /// <param name="value">The instance of the specified type from which property values are obtained.</param>
+        /// <returns>true if any string property contains a script tag; otherwise, false.</returns>
         private bool AnyPropertiesOfTypeStringWithScrips<TGenProperty>(Type typeToCheck, TGenProperty value)
         {
             var props = GetProperties(typeToCheck);
@@ -173,16 +207,15 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
             {
                 return false;
             }
+            
 
             foreach (var propertyInfo in props)
             {
                 if (propertyInfo.PropertyType == typeof(string))
                 {
-                    #if NETSTANDARD2_0
-                    var v = (string)propertyInfo.GetValue(value, null);
-                    #else
+                    
                     var v = (string?)propertyInfo.GetValue(value, null);
-                    #endif
+                    
 
                     if (StringSanitizerValidatorExtensions.ContainsScriptTag(v))
                     {
@@ -191,7 +224,18 @@ namespace PH.FluentValidationExtensions.Validators.StringSanitizer
                 }
                 else
                 {
-                    return AnyPropOfTypeStringWithScripsFromClass(propertyInfo, value);
+                    if (propertyInfo.PropertyType.IsValueType)
+                    {
+                        continue;
+                    }
+
+                    bool found = AnyPropOfTypeStringWithScripsFromClass(propertyInfo, value);
+                    if(found)
+                    {
+                        return true;
+                    }
+
+                    
                 }
             }
 

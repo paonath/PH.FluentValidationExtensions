@@ -21,9 +21,10 @@ namespace PH.FluentValidationExtensions.TestModels
         [DisableAvoidSpecialCharsCheckValidation]
         [DisableScriptCheckValidation]
         public override string? StringValue { get; set; }
-       
+
 
     }
+
     /// <summary>
     /// 
     /// </summary>
@@ -33,8 +34,8 @@ namespace PH.FluentValidationExtensions.TestModels
         /// 
         /// </summary>
 
-        public virtual string? StringValue { get; set; }     
-     
+        public virtual string? StringValue { get; set; }
+
 
     }
 
@@ -51,6 +52,7 @@ namespace PH.FluentValidationExtensions.TestModels
         public DateTime? SkipValue { get; set; }
 
     }
+
     /// <summary>
     /// 
     /// </summary>
@@ -94,10 +96,10 @@ namespace PH.FluentValidationExtensions.TestModels
         /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
         public WithArray()
         {
-            
+
             ArrayOfChars = Array.Empty<char>();
-           
-            ArrayOfNullableChars = Array.Empty<char?>();
+
+            ArrayOfNullableChars    = Array.Empty<char?>();
             ArrayOffNullableStrings = Array.Empty<string?>();
 
             ArrayOfStrings = Array.Empty<string>();
@@ -114,7 +116,7 @@ namespace PH.FluentValidationExtensions.TestModels
         /// </summary>
         public string[] ArrayOfStrings { get; set; }
 
-       
+
         /// <summary>
         ///     Gets or sets an array of nullable characters.
         /// </summary>
@@ -125,42 +127,42 @@ namespace PH.FluentValidationExtensions.TestModels
         public char?[] ArrayOfNullableChars { get; set; }
 
 
-        
+
 
         /// <summary>
         ///     Sample Data
         /// </summary>
         public string?[] ArrayOffNullableStrings { get; set; }
-        
-     
+
+
     }
 
-    
-    
-   
+
+
+
     /// <summary>
     ///     Sample Data
     /// </summary>
     public record SampleRecord(string Value, int? Number);
-    
-   
+
+
     /// <summary>
     ///     Sample Data
     /// </summary>
     public class Sample
     {
-       
-        
-        
+
+
+
         /// <summary>
         ///     Sample Data
         /// </summary>
         public string? StringValue { get; set; }
-        
-       
-        
-        
-      
+
+
+
+
+
 
 
         /// <summary>
@@ -168,7 +170,7 @@ namespace PH.FluentValidationExtensions.TestModels
         /// </summary>
         public string? AlwaysNullString { get; set; }
 
-     
+
     }
 
 
@@ -177,15 +179,15 @@ namespace PH.FluentValidationExtensions.TestModels
     /// </summary>
     public class WithNested
     {
-        
+
         /// <summary>
         ///     Sample Data
         /// </summary>
         public int? InvValue { get; set; }
 
-       
 
-          /// <summary>
+
+        /// <summary>
         ///     Sample Data
         /// </summary>
         public string? StringValue { get; set; }
@@ -209,10 +211,16 @@ namespace PH.FluentValidationExtensions.TestModels
                 s,
             InvValue = 0
         };
-        
-      
+
+
 
     }
-    
-    
+
+
+    public class NestedOnly
+    {
+        public WithNested Nested { get; set; }
+    }
+
+
 }
