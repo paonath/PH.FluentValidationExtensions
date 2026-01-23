@@ -15,9 +15,9 @@ namespace PH.FluentValidationExtensions.Validators.Image
     internal static class ImageFileExtensionsDictionary
     {
         public static readonly string[] All =
-        {
+        [
             "bmp", "cod", "gif", "ief", "jpe", "jpeg", "jpg", "jfif", "svg", "tif", "tiff", "ras", "cmx", "ico", "pnm",
-            "pbm", "pgm", "png", "ppm", "rgb", "webp", "xbm", "xpm", "xwd"
-        };
+            "pbm", "pgm", "png", "ppm", "rgb", "webp", "xbm", "xpm", "xwd", "heic"
+        ];
     }
 }
